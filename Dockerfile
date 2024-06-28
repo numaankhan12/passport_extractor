@@ -1,10 +1,8 @@
 FROM python:3.9-slim
 
-# Install dependencies
+# Install system dependencies
 RUN apt-get update \
-  && apt-get -y install tesseract-ocr tesseract-ocr-eng tesseract-ocr-ara libtesseract-dev libleptonica-dev
-
-RUN apt-get install -y ffmpeg libsm6 libxext6
+  && apt-get -y install tesseract-ocr tesseract-ocr-eng tesseract-ocr-ara libtesseract-dev libleptonica-dev ffmpeg libsm6 libxext6
 
 # Set up the working directory
 WORKDIR /app
@@ -24,4 +22,5 @@ ENV PYTHONPATH=/app/src
 
 # Run the application using the shell to correctly expand the PORT environment variable
 CMD ["sh", "-c", "uvicorn src.app:app --host 0.0.0.0 --port ${PORT}"]
+
 
