@@ -5,7 +5,7 @@ import pytesseract
 from extractor import extract_passport_details
 
 # Set the path to the Tesseract executable if it's not in your PATH
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 
 app = FastAPI()
 

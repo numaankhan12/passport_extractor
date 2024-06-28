@@ -16,10 +16,8 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install uvicorn python-multipart
 
-# Expose the default port
+# Expose the default port (optional for documentation)
 EXPOSE 8000
 
-ARG PORT
-# Run the application
-CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "${PORT}"]
-
+# Run the application using the shell to correctly expand the PORT environment variable
+CMD ["sh", "-c", "uvicorn src.app:app --host 0.0.0.0 --port ${PORT}"]
