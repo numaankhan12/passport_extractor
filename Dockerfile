@@ -19,5 +19,9 @@ RUN pip install uvicorn python-multipart
 # Expose the default port (optional for documentation)
 EXPOSE 8000
 
+# Set the PYTHONPATH environment variable
+ENV PYTHONPATH=/app/src
+
 # Run the application using the shell to correctly expand the PORT environment variable
 CMD ["sh", "-c", "uvicorn src.app:app --host 0.0.0.0 --port ${PORT}"]
+
