@@ -15,4 +15,4 @@ RUN pip3 install uvicorn python-multipart
  
 ARG PORT
  
-CMD uvicorn main:app --host 0.0.0.0 --port $PORT
+CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "${PORT}"]
