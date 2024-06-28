@@ -1,0 +1,4 @@
+PassportEye
+fastapi
+uvicorn
+pytesseract
