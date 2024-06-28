@@ -1,7 +1,10 @@
-import pytesseract
+import numpy as np
 from passporteye import read_mrz
+import cv2
+import pytesseract
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+# Set the path to the Tesseract executable if needed
+pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 
 def extract_passport_details(image_path):
     # Read the MRZ from the image
@@ -30,3 +33,32 @@ def extract_passport_details(image_path):
     }
 
     return {"success": True, "data": details}
+
+class RotatedBox:
+    def __init__(self, center, size, angle, rotation_center=None):
+        self.center = np.asarray(center, dtype=float)
+        self.size = size
+        self.angle = angle
+        if rotation_center is not None:
+            self.rotation_center = np.asarray(rotation_center, dtype=float)
+        else:
+            self.rotation_center = self.center
+
+    @staticmethod
+    def from_points(points, box_type='h'):
+        points = np.asarray(points, dtype=float)
+        if box_type == 'h':
+            center = np.mean(points, axis=0)
+            size = np.max(points, axis=0) - np.min(points, axis=0)
+            angle = 0.0
+        elif box_type == 'r':
+            # Assuming points are given as [top-left, top-right, bottom-right, bottom-left]
+            (cx, cy), (w, h), angle = cv2.minAreaRect(points)
+            center = (cx, cy)
+            size = (w, h)
+        else:
+            raise ValueError("Unknown box type")
+
+        return RotatedBox(center, size, angle)
+
+    # Other methods can be added here as needed
