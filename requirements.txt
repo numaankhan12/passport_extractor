@@ -2,3 +2,4 @@ PassportEye
 fastapi
 uvicorn
 pytesseract
+python-multipart
