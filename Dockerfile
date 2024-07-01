@@ -20,7 +20,8 @@ EXPOSE 8000
 # Set the PYTHONPATH environment variable
 ENV PYTHONPATH=/app/src
 
-# Run the application using the shell to correctly expand the PORT environment variable
-CMD ["sh", "-c", "uvicorn src.app:app --host 0.0.0.0 --port ${PORT}"]
+# Run the application using uvicorn directly with the fixed port 8000
+CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "8000"]
+
 
 

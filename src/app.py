@@ -1,16 +1,21 @@
+import os
+import sys
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import JSONResponse
-import os
 import pytesseract
-from extractor import extract_passport_details
 
 # Set the path to the Tesseract executable if it's not in your PATH
-pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
+# Ensure the src directory is in the sys.path
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+from extractor import extract_passport_details
 
 app = FastAPI()
 
-@app.post("/extract-passport-details/")
-async def extract_passport_details_endpoint(file: UploadFile = File(...)):
+@app.post("/upload-passport/")
+async def upload_passport(file: UploadFile = File(...)):
     try:
         # Save the uploaded file to a temporary location
         temp_file_path = f"temp_{file.filename}"
@@ -31,10 +36,7 @@ async def extract_passport_details_endpoint(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-if __name__ == "__main__":
-    import uvicorn
-    port = int(os.environ.get("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+
 
 
 
